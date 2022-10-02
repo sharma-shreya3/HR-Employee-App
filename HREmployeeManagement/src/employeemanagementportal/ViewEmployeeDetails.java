@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -51,7 +52,7 @@ public class ViewEmployeeDetails extends JPanel {
 	private JTextField searchTeamInfo;
 	private JRadioButton rdbtnMale;
 	private JButton btnUpdate;
-	private int updateIndex = -1;
+	private String updateEmpID = null;
 
 	/**
 	 * Create the panel.
@@ -97,7 +98,6 @@ public class ViewEmployeeDetails extends JPanel {
 		 		EmployeeDetails selectedEmployee = (EmployeeDetails) model.getValueAt(selectedRowIndex, 0);
 		 		
 		 		employeeDirectory.deleteEmployeeData(selectedEmployee);
-		 		System.out.print(employeeDirectory.getEmployeeDirectory());
 		 		JOptionPane.showMessageDialog(null,"Details of " + selectedEmployee.getName() + " is deleted successfully");
 		 		populateTable();
 		 	}
@@ -134,7 +134,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 		}
 		 		
 		 		btnUpdate.setEnabled(true);
-		 		updateIndex = selectedRowIndex;
+		 		updateEmpID = selectedEmployee.getEmployeeId();
 		 		
 		 		
 		 	}
@@ -309,6 +309,13 @@ public class ViewEmployeeDetails extends JPanel {
 		 textTreamInfo.setColumns(20);
 		 
 		 JButton btnCancel = new JButton("Cancel");
+		 btnCancel.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		btnUpdate.setEnabled(false);
+		 		updateEmpID = null;
+		 		clearUpdateTextFields();
+		 	}
+		 });
 		 btnCancel.setBackground(new Color(192, 192, 192));
 		 btnCancel.setForeground(new Color(64, 0, 64));
 		 btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -318,7 +325,82 @@ public class ViewEmployeeDetails extends JPanel {
 		 btnUpdate.setEnabled(false);
 		 btnUpdate.addActionListener(new ActionListener() {
 		 	public void actionPerformed(ActionEvent e) {
-		 		System.out.println(updateIndex);
+		 		EmployeeDetails updateDetails = getEmployeeDetailByEmail(updateEmpID);
+		 		
+		 		String name = textName.getText();
+				String age = textAge.getText();
+				String gender = null;
+				String startDate = textStartDate.getText();
+				String level = textLevel.getText();
+				String teamInfo = textTreamInfo.getText();
+				String positionTitle = textTitle.getText();
+				String phoneNumber = textPhoneNumber.getText();
+				String email = textEmail.getText();
+				
+				if (rdbtnFemale.isSelected()) {
+					gender = "Female";
+				} else if (rdbtnMale.isSelected()) {
+					gender = "Male";
+				}
+				
+				String validateMsg = "";
+				
+				if (validateName(name)) {
+					validateMsg = validateMsg + "Name field is invalid.";
+				}
+				if (age.isEmpty() || Integer.parseInt(age) < 18) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Age field is invalid.";
+					} else {
+						validateMsg = validateMsg + " , " +"Age field is invalid";
+					}
+				}
+				
+				if (gender.isEmpty()) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Gender field is empty.";
+					} else {
+						validateMsg = validateMsg + " , " +"Gender field is empty";
+					}
+				}
+				
+				if (validateEmail(email)) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Email field is invalid.";
+					} else {
+						validateMsg = validateMsg + " , " +"Email field is invalid";
+					}
+				}
+				
+				if (validatePhoneNumber(phoneNumber)) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Phone number field is invalid.";
+					} else {
+						validateMsg = validateMsg + " , " +"Phone number field is invalid";
+					}
+				}
+				
+				if (!validateMsg.trim().equals("")) {
+					JOptionPane.showMessageDialog(null,validateMsg);
+					return;
+				}
+				
+				btnUpdate.setEnabled(false);
+		 		updateEmpID = null;
+		 		clearUpdateTextFields();
+				
+		 		updateDetails.setName(name);
+		 		updateDetails.setAge(age);
+		 		updateDetails.setGender(gender);
+		 		updateDetails.setStartDate(startDate);
+		 		updateDetails.setLevel(level);
+		 		updateDetails.setTeamInfo(teamInfo);
+		 		updateDetails.setPositionTitle(positionTitle);
+		 		
+		 		JOptionPane.showMessageDialog(null,"Details updated successfully");
+		 		populateTable();
+				
+		 		
 		 	}
 		 });
 		 btnUpdate.setBackground(new Color(0, 0, 160));
@@ -465,5 +547,66 @@ public class ViewEmployeeDetails extends JPanel {
 			
 		}
 		
+	}
+	
+	private void clearUpdateTextFields() {
+		
+		textName.setText("");
+		textAge.setText("");
+		textStartDate.setText("");
+		textLevel.setText("");
+		textTreamInfo.setText("");
+		textTitle.setText("");
+		textPhoneNumber.setText("");
+		textEmail.setText("");
+		btnGroup.clearSelection();
+		
+	}
+	
+	private EmployeeDetails getEmployeeDetailByEmail(String empId) {
+		if (employeeDirectory != null ) {
+			for (EmployeeDetails ed: employeeDirectory.getEmployeeDirectory()) {
+				if (ed.getEmployeeId().equals(empId)) {
+					return ed;
+				}
+			}
+		}
+		return null;
+	}
+	
+	private boolean validateName(String name) {
+		boolean isValidated = false;
+		if (name == null || name.trim().equals("")) {
+			return isValidated =  true;
+		}
+		final Pattern pattern = Pattern.compile("^[A-Za-z- ]++$");
+		if (!pattern.matcher(name).matches()) {
+			return isValidated =  true;
+		}
+		return isValidated;
+	}
+	
+	private boolean validateEmail(String email) {
+		boolean isValidated = false;
+		if (email == null || email.trim().equals("")) {
+			return isValidated =  true;
+		}
+		final Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+		if (!pattern.matcher(email).matches()) {
+			return isValidated =  true;
+		}
+		return isValidated;
+	}
+	
+	private boolean validatePhoneNumber(String phone) {
+		boolean isValidated = false;
+		if (phone == null || phone.trim().equals("")) {
+			return isValidated =  true;
+		}
+		final Pattern pattern = Pattern.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$");
+		if (!pattern.matcher(phone).matches()) {
+			return isValidated =  true;
+		}
+		return isValidated;
 	}
 }
