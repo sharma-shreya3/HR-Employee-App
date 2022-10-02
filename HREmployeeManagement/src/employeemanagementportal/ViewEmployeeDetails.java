@@ -15,6 +15,7 @@ import model.EmployeeDetails;
 import model.EmployeeDirectory;
 
 import javax.swing.JScrollPane;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -30,22 +31,27 @@ public class ViewEmployeeDetails extends JPanel {
 	private JTable tblEmployeeData;
 	
 	EmployeeDirectory employeeDirectory;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
+	private JTextField textName;
+	private JTextField textAge;
+	private JTextField textEmpID;
+	private JTextField textStartDate;
+	private JTextField textLevel;
+	private JTextField textTitle;
+	private JTextField textPhoneNumber;
+	private JTextField textEmail;
+	private JTextField textTreamInfo;
+	private ButtonGroup btnGroup;
 	private JTextField searchEmpID;
 	private JTextField searchEmail;
 	private JTextField searchPhoneNumber;
 	private JTextField searchName;
 	private JTextField searchLevel;
+	private JRadioButton rdbtnFemale;
 	private JTextField searchPosition;
 	private JTextField searchTeamInfo;
+	private JRadioButton rdbtnMale;
+	private JButton btnUpdate;
+	private int updateIndex = -1;
 
 	/**
 	 * Create the panel.
@@ -100,10 +106,42 @@ public class ViewEmployeeDetails extends JPanel {
 		 btnNewButton.setBounds(504, 346, 137, 21);
 		 add(btnNewButton);
 		 
-		 JButton btnNewButton_1 = new JButton("View Record");
-		 btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		 btnNewButton_1.setBounds(357, 346, 137, 21);
-		 add(btnNewButton_1);
+		 JButton btnViewRecord = new JButton("View Record");
+		 btnViewRecord.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		int selectedRowIndex = tblEmployeeData.getSelectedRow();
+		 		if (selectedRowIndex < 0) {
+		 			JOptionPane.showMessageDialog(null,"Please Select a row to View Employee Record");
+		 			return;
+		 		}
+		 		
+		 		DefaultTableModel model = (DefaultTableModel)tblEmployeeData.getModel();
+		 		EmployeeDetails selectedEmployee = (EmployeeDetails) model.getValueAt(selectedRowIndex, 0);
+		 		
+		 		textName.setText(selectedEmployee.getName());
+		 		textAge.setText(selectedEmployee.getAge());
+		 		textEmail.setText(selectedEmployee.getContactInfo().getEmailId());
+		 		textLevel.setText(selectedEmployee.getLevel());
+		 		textPhoneNumber.setText(selectedEmployee.getContactInfo().getCellPhoneNumber());
+		 		textStartDate.setText(selectedEmployee.getStartDate());
+		 		textTitle.setText(selectedEmployee.getPositionTitle());
+		 		textTreamInfo.setText(selectedEmployee.getTeamInfo());
+		 		
+		 		if (selectedEmployee.getGender().equals("Female")) {
+		 			rdbtnFemale.setSelected(true);
+		 		} else {
+		 			rdbtnMale.setSelected(true);;
+		 		}
+		 		
+		 		btnUpdate.setEnabled(true);
+		 		updateIndex = selectedRowIndex;
+		 		
+		 		
+		 	}
+		 });
+		 btnViewRecord.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		 btnViewRecord.setBounds(357, 346, 137, 21);
+		 add(btnViewRecord);
 		 
 		 JLabel lblUpdate = new JLabel("Update Employee Details");
 		 lblUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -112,7 +150,8 @@ public class ViewEmployeeDetails extends JPanel {
 		 add(lblUpdate);
 		 
 		 JPanel updatePanel = new JPanel();
-		 updatePanel.setBounds(21, 413, 646, 336);
+		 updatePanel.setBackground(new Color(232, 228, 233));
+		 updatePanel.setBounds(21, 398, 646, 336);
 		 add(updatePanel);
 		 updatePanel.setLayout(new FormLayout(new ColumnSpec[] {
 		 		FormSpecs.RELATED_GAP_COLSPEC,
@@ -177,95 +216,115 @@ public class ViewEmployeeDetails extends JPanel {
 		 lblName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 updatePanel.add(lblName, "14, 4, right, default");
 		 
-		 textField = new JTextField();
-		 textField.setColumns(20);
-		 updatePanel.add(textField, "16, 4, left, default");
+		 textName = new JTextField();
+		 textName.setColumns(20);
+		 updatePanel.add(textName, "16, 4, left, default");
 		 
 		 JLabel lblAge = new JLabel("Age");
 		 lblAge.setHorizontalAlignment(SwingConstants.TRAILING);
 		 lblAge.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 updatePanel.add(lblAge, "14, 6, right, default");
 		 
-		 textField_1 = new JTextField();
-		 updatePanel.add(textField_1, "16, 6, left, default");
-		 textField_1.setColumns(20);
+		 textAge = new JTextField();
+		 updatePanel.add(textAge, "16, 6, left, default");
+		 textAge.setColumns(20);
 		 
 		 JLabel lblNewLabel_1 = new JLabel("Employee ID");
 		 lblNewLabel_1.setHorizontalAlignment(SwingConstants.TRAILING);
 		 lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 updatePanel.add(lblNewLabel_1, "14, 8, right, default");
 		 
-		 textField_2 = new JTextField();
-		 updatePanel.add(textField_2, "16, 8, left, default");
-		 textField_2.setColumns(20);
+		 textEmpID = new JTextField();
+		 updatePanel.add(textEmpID, "16, 8, left, default");
+		 textEmpID.setColumns(20);
 		 
 		 JLabel lblNewLabel_3 = new JLabel("Gender");
 		 lblNewLabel_3.setHorizontalAlignment(SwingConstants.TRAILING);
 		 lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 updatePanel.add(lblNewLabel_3, "14, 10, right, default");
 		 
-		 JRadioButton rdbtnMale = new JRadioButton("Male");
+		 rdbtnMale = new JRadioButton("Male");
+		 rdbtnMale.setBackground(new Color(232, 228, 233));
 		 updatePanel.add(rdbtnMale, "16, 10, left, default");
 		 
-		 JRadioButton rdbtnFemale = new JRadioButton("Female");
+		 rdbtnFemale  = new JRadioButton("Female");
+		 rdbtnFemale.setBackground(new Color(232, 228, 233));
 		 updatePanel.add(rdbtnFemale, "18, 10");
+		 
+		 btnGroup = new ButtonGroup();
+		 btnGroup.add(rdbtnMale);
+		 btnGroup.add(rdbtnFemale);
 		 
 		 JLabel lblNewLabel_4 = new JLabel("Start Date");
 		 lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 lblNewLabel_4.setHorizontalAlignment(SwingConstants.TRAILING);
 		 updatePanel.add(lblNewLabel_4, "14, 12, right, default");
 		 
-		 textField_3 = new JTextField();
-		 updatePanel.add(textField_3, "16, 12, left, default");
-		 textField_3.setColumns(20);
+		 textStartDate = new JTextField();
+		 updatePanel.add(textStartDate, "16, 12, left, default");
+		 textStartDate.setColumns(20);
 		 
 		 JLabel lblNewLabel_5 = new JLabel("Level");
 		 lblNewLabel_5.setHorizontalAlignment(SwingConstants.TRAILING);
 		 lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 updatePanel.add(lblNewLabel_5, "14, 14, right, default");
 		 
-		 textField_4 = new JTextField();
-		 updatePanel.add(textField_4, "16, 14, left, default");
-		 textField_4.setColumns(20);
+		 textLevel = new JTextField();
+		 updatePanel.add(textLevel, "16, 14, left, default");
+		 textLevel.setColumns(20);
 		 
 		 JLabel lblNewLabel_6 = new JLabel("Title");
 		 lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 lblNewLabel_6.setHorizontalAlignment(SwingConstants.TRAILING);
 		 updatePanel.add(lblNewLabel_6, "14, 16, right, top");
 		 
-		 textField_5 = new JTextField();
-		 updatePanel.add(textField_5, "16, 16, left, default");
-		 textField_5.setColumns(20);
+		 textTitle = new JTextField();
+		 updatePanel.add(textTitle, "16, 16, left, default");
+		 textTitle.setColumns(20);
 		 
 		 JLabel lblNewLabel_7 = new JLabel("Phone Number");
 		 lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 updatePanel.add(lblNewLabel_7, "14, 18, right, default");
 		 
-		 textField_6 = new JTextField();
-		 updatePanel.add(textField_6, "16, 18, left, default");
-		 textField_6.setColumns(20);
+		 textPhoneNumber = new JTextField();
+		 updatePanel.add(textPhoneNumber, "16, 18, left, default");
+		 textPhoneNumber.setColumns(20);
 		 
 		 JLabel lblNewLabel_8 = new JLabel("Email");
 		 lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 lblNewLabel_8.setHorizontalAlignment(SwingConstants.TRAILING);
 		 updatePanel.add(lblNewLabel_8, "14, 20, right, default");
 		 
-		 textField_7 = new JTextField();
-		 updatePanel.add(textField_7, "16, 20, left, default");
-		 textField_7.setColumns(20);
+		 textEmail = new JTextField();
+		 updatePanel.add(textEmail, "16, 20, left, default");
+		 textEmail.setColumns(20);
 		 
 		 JLabel lblNewLabel_9 = new JLabel("Team Info");
 		 lblNewLabel_9.setHorizontalAlignment(SwingConstants.TRAILING);
 		 lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		 updatePanel.add(lblNewLabel_9, "14, 22, right, default");
 		 
-		 textField_8 = new JTextField();
-		 updatePanel.add(textField_8, "16, 22, left, default");
-		 textField_8.setColumns(20);
+		 textTreamInfo = new JTextField();
+		 updatePanel.add(textTreamInfo, "16, 22, left, default");
+		 textTreamInfo.setColumns(20);
 		 
-		 JButton btnNewButton_2 = new JButton("Update Details");
-		 btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		 updatePanel.add(btnNewButton_2, "20, 22");
+		 JButton btnCancel = new JButton("Cancel");
+		 btnCancel.setBackground(new Color(192, 192, 192));
+		 btnCancel.setForeground(new Color(64, 0, 64));
+		 btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		 updatePanel.add(btnCancel, "20, 22");
+		 
+		 btnUpdate = new JButton("Update Details");
+		 btnUpdate.setEnabled(false);
+		 btnUpdate.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		System.out.println(updateIndex);
+		 	}
+		 });
+		 btnUpdate.setBackground(new Color(0, 0, 160));
+		 btnUpdate.setForeground(new Color(255, 255, 255));
+		 btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		 updatePanel.add(btnUpdate, "22, 22");
 		 
 		 JPanel panel = new JPanel();
 		 panel.setBounds(21, 37, 646, 129);

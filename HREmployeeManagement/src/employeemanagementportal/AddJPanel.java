@@ -124,9 +124,9 @@ public class AddJPanel extends JPanel {
 		rdbtnFemale.setBackground(new Color(255, 255, 255));
 		rdbtnFemale.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(rdbtnFemale, "12, 10");
-		ButtonGroup G1 = new ButtonGroup();
-		G1.add(rdbtnMale);
-        G1.add(rdbtnFemale);
+		ButtonGroup btnGroup = new ButtonGroup();
+		btnGroup.add(rdbtnMale);
+		btnGroup.add(rdbtnFemale);
 		
 		
 		
@@ -279,7 +279,7 @@ public class AddJPanel extends JPanel {
 				textPositionTitle.setText("");
 				textPhoneNumber.setText("");
 				textEmail.setText("");
-				G1.clearSelection(); 			
+				btnGroup.clearSelection(); 			
 				
 			}
 		});
