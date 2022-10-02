@@ -23,5 +23,9 @@ public class EmployeeDirectory {
 		employeeDirectory.add(employeeDetails);
 		return employeeDetails;
 	}
+	
+	public void deleteEmployeeData (EmployeeDetails employeeDetail) {
+		employeeDirectory.remove(employeeDetail);
+	}
 
 }

@@ -74,4 +74,9 @@ public class EmployeeDetails {
 		this.photosLink = photosLink;
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }
