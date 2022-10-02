@@ -4,14 +4,24 @@ import javax.swing.JPanel;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import model.ContactInfo;
+import model.EmployeeDetails;
+import model.EmployeeDirectory;
+
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AddJPanel extends JPanel {
 	private JTextField textName;
@@ -26,7 +36,9 @@ public class AddJPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AddJPanel() {
+	EmployeeDirectory employeeDirectory;
+	
+	public AddJPanel(EmployeeDirectory employeeDirectory) {
 		setBackground(new Color(255, 255, 255));
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
@@ -107,6 +119,11 @@ public class AddJPanel extends JPanel {
 		rdbtnFemale.setBackground(new Color(255, 255, 255));
 		rdbtnFemale.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(rdbtnFemale, "12, 10");
+		ButtonGroup G1 = new ButtonGroup();
+		G1.add(rdbtnMale);
+        G1.add(rdbtnFemale);
+		
+		
 		
 		JLabel lblStartDate = new JLabel("StartDate");
 		lblStartDate.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -168,10 +185,57 @@ public class AddJPanel extends JPanel {
 		add(lblPhoto, "8, 24, default, top");
 		
 		JButton btnNewButton = new JButton("ADD");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String name = textName.getText();
+				String age = textAge.getText();
+				String gender = rdbtnFemale.isSelected()? "Female" : "Male";
+				String startDate = textStartDate.getText();
+				String level = textLevel.getText();
+				String teamInfo = textTeamInfo.getText();
+				String positionTitle = textPositionTitle.getText();
+				String phoneNumber = textPhoneNumber.getText();
+				String email = textEmail.getText();
+				String photosLink;
+				
+				ContactInfo contactInfo = new ContactInfo();
+				contactInfo.setCellPhoneNumber(phoneNumber);
+				contactInfo.setEmailId(email);
+				
+				EmployeeDetails employeeDetail = employeeDirectory.addNewEmployeeDetails();
+				employeeDetail.setName(name);
+				employeeDetail.setAge(age);
+				employeeDetail.setEmployeeId(1);
+				employeeDetail.setGender(gender);
+				employeeDetail.setStartDate(startDate);
+				employeeDetail.setLevel(level);
+				employeeDetail.setTeamInfo(teamInfo);
+				employeeDetail.setPositionTitle(positionTitle);
+				employeeDetail.setContactInfo(contactInfo);
+				employeeDetail.setPhotosLink(null);
+				
+				JOptionPane.showMessageDialog(null,"Employee Details added Successfully");
+				
+				textName.setText("");
+				textAge.setText("");
+				textStartDate.setText("");
+				textLevel.setText("");
+				textTeamInfo.setText("");
+				textPositionTitle.setText("");
+				textPositionTitle.setText("");
+				textPhoneNumber.setText("");
+				textEmail.setText("");
+				G1.clearSelection(); 			
+				
+			}
+		});
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setBackground(new Color(0, 128, 0));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));
 		add(btnNewButton, "10, 28");
+		
+		this.employeeDirectory = employeeDirectory;
 
 	}
 

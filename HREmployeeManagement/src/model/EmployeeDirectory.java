@@ -18,6 +18,10 @@ public class EmployeeDirectory {
 		this.employeeDirectory = employeeDirectory;
 	}
 	
-	
+	public EmployeeDetails addNewEmployeeDetails() {
+		EmployeeDetails employeeDetails = new EmployeeDetails();
+		employeeDirectory.add(employeeDetails);
+		return employeeDetails;
+	}
 
 }

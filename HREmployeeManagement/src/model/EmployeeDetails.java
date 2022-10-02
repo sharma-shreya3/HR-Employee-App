@@ -3,8 +3,8 @@ package model;
 public class EmployeeDetails {
 	
 	private String name; 
-	private String employeeId;
-	private int age;
+	private int employeeId;
+	private String age;
 	private String gender;
 	private String startDate;
 	private String level;
@@ -19,16 +19,16 @@ public class EmployeeDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmployeeId() {
+	public int getEmployeeId() {
 		return employeeId;
 	}
-	public void setEmployeeId(String employeeId) {
+	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 	public String getGender() {
@@ -73,6 +73,5 @@ public class EmployeeDetails {
 	public void setPhotosLink(String photosLink) {
 		this.photosLink = photosLink;
 	}
-
 	
 }

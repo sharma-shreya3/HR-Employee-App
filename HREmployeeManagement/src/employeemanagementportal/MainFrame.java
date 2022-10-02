@@ -63,6 +63,12 @@ public class MainFrame extends JFrame {
 		controlPanel.setLayout(null);
 		
 		JButton btnView = new JButton("VIEW");
+		btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("hello world");
+				
+			}
+		});
 		btnView.setForeground(new Color(255, 255, 255));
 		btnView.setBackground(new Color(128, 64, 0));
 		btnView.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -72,7 +78,7 @@ public class MainFrame extends JFrame {
 		JButton btnCreate = new JButton("ADD");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddJPanel addPanel = new AddJPanel();
+				AddJPanel addPanel = new AddJPanel(employeeDirectory);
 				splitPane.setRightComponent(addPanel);
 			}
 		});
