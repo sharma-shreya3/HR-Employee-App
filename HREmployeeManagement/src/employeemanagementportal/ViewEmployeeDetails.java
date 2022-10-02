@@ -18,6 +18,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import javax.swing.JTextField;
 
 public class ViewEmployeeDetails extends JPanel {
 	private JTable tblEmployeeData;
@@ -38,7 +43,7 @@ public class ViewEmployeeDetails extends JPanel {
 		add(lblNewLabel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 66, 620, 238);
+		scrollPane.setBounds(10, 37, 631, 224);
 		add(scrollPane);
 		
 		tblEmployeeData = new JTable();
@@ -74,13 +79,62 @@ public class ViewEmployeeDetails extends JPanel {
 		 	}
 		 });
 		 btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		 btnNewButton.setBounds(475, 314, 137, 21);
+		 btnNewButton.setBounds(504, 271, 137, 21);
 		 add(btnNewButton);
 		 
 		 JButton btnNewButton_1 = new JButton("Update Record");
 		 btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		 btnNewButton_1.setBounds(328, 314, 137, 21);
+		 btnNewButton_1.setBounds(363, 271, 137, 21);
 		 add(btnNewButton_1);
+		 
+		 JLabel lblUpdate = new JLabel("Update Employee Details");
+		 lblUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
+		 lblUpdate.setHorizontalAlignment(SwingConstants.CENTER);
+		 lblUpdate.setBounds(228, 311, 228, 27);
+		 add(lblUpdate);
+		 
+		 JPanel panel = new JPanel();
+		 panel.setBounds(10, 347, 631, 273);
+		 add(panel);
+		 panel.setLayout(new FormLayout(new ColumnSpec[] {
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		ColumnSpec.decode("default:grow"),
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,
+		 		FormSpecs.RELATED_GAP_COLSPEC,
+		 		FormSpecs.DEFAULT_COLSPEC,},
+		 	new RowSpec[] {
+		 		FormSpecs.RELATED_GAP_ROWSPEC,
+		 		FormSpecs.DEFAULT_ROWSPEC,
+		 		FormSpecs.RELATED_GAP_ROWSPEC,
+		 		FormSpecs.DEFAULT_ROWSPEC,
+		 		FormSpecs.RELATED_GAP_ROWSPEC,
+		 		FormSpecs.DEFAULT_ROWSPEC,
+		 		FormSpecs.RELATED_GAP_ROWSPEC,
+		 		FormSpecs.DEFAULT_ROWSPEC,}));
+		 
+		 JLabel lblNewLabel_2 = new JLabel("New label");
+		 panel.add(lblNewLabel_2, "6, 2, 10, 7");
 		 
 		 populateTable();
 

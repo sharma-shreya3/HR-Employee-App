@@ -3,7 +3,7 @@ package model;
 public class EmployeeDetails {
 	
 	private String name; 
-	private int employeeId;
+	private String employeeId;
 	private String age;
 	private String gender;
 	private String startDate;
@@ -19,10 +19,10 @@ public class EmployeeDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
-	public void setEmployeeId(int employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 	public String getAge() {

@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 1000, 10000);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBounds(10, 0, 800, 600);
+		splitPane.setBounds(10, 0, 1000, 1000);
 		contentPane.add(splitPane);
 		
 		JPanel workSpace = new JPanel();

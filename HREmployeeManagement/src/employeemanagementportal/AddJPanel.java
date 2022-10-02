@@ -21,6 +21,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
 public class AddJPanel extends JPanel {
@@ -37,6 +40,8 @@ public class AddJPanel extends JPanel {
 	 * Create the panel.
 	 */
 	EmployeeDirectory employeeDirectory;
+	HashMap<String, String> validationFields;
+	
 	
 	public AddJPanel(EmployeeDirectory employeeDirectory) {
 		setBackground(new Color(255, 255, 255));
@@ -50,7 +55,7 @@ public class AddJPanel extends JPanel {
 				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(57dlu;default)"),
 				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(134dlu;default):grow"),
+				ColumnSpec.decode("max(128dlu;default):grow"),
 				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(70dlu;default):grow"),},
 			new RowSpec[] {
@@ -113,7 +118,7 @@ public class AddJPanel extends JPanel {
 		JRadioButton rdbtnMale = new JRadioButton("Male");
 		rdbtnMale.setBackground(new Color(255, 255, 255));
 		rdbtnMale.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		add(rdbtnMale, "10, 10");
+		add(rdbtnMale, "10, 10, left, default");
 		
 		JRadioButton rdbtnFemale = new JRadioButton("Female");
 		rdbtnFemale.setBackground(new Color(255, 255, 255));
@@ -190,7 +195,7 @@ public class AddJPanel extends JPanel {
 				
 				String name = textName.getText();
 				String age = textAge.getText();
-				String gender = rdbtnFemale.isSelected()? "Female" : "Male";
+				String gender = null;
 				String startDate = textStartDate.getText();
 				String level = textLevel.getText();
 				String teamInfo = textTeamInfo.getText();
@@ -199,6 +204,54 @@ public class AddJPanel extends JPanel {
 				String email = textEmail.getText();
 				String photosLink;
 				
+				if (rdbtnFemale.isSelected()) {
+					gender = "Female";
+				} else if (rdbtnMale.isSelected()) {
+					gender = "Male";
+				}
+				
+				String validateMsg = "";
+				
+				if (validateName(name)) {
+					validateMsg = validateMsg + "Name field is invalid.";
+				}
+				if (age.isEmpty() || Integer.parseInt(age) < 18) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Age field is invalid.";
+					} else {
+						validateMsg = validateMsg + " , " +"Age field is invalid";
+					}
+				}
+				
+				if (gender.isEmpty()) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Gender field is empty.";
+					} else {
+						validateMsg = validateMsg + " , " +"Gender field is empty";
+					}
+				}
+				
+				if (validateEmail(email)) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Email field is invalid.";
+					} else {
+						validateMsg = validateMsg + " , " +"Email field is invalid";
+					}
+				}
+				
+				if (validatePhoneNumber(phoneNumber)) {
+					if (validateMsg.isEmpty()) {
+						validateMsg = "Phone number field is invalid.";
+					} else {
+						validateMsg = validateMsg + " , " +"Phone number field is invalid";
+					}
+				}
+				
+				if (!validateMsg.trim().equals("")) {
+					JOptionPane.showMessageDialog(null,validateMsg);
+					return;
+				}
+				
 				ContactInfo contactInfo = new ContactInfo();
 				contactInfo.setCellPhoneNumber(phoneNumber);
 				contactInfo.setEmailId(email);
@@ -206,7 +259,7 @@ public class AddJPanel extends JPanel {
 				EmployeeDetails employeeDetail = employeeDirectory.addNewEmployeeDetails();
 				employeeDetail.setName(name);
 				employeeDetail.setAge(age);
-				employeeDetail.setEmployeeId(1);
+				employeeDetail.setEmployeeId(getRandomNumber());
 				employeeDetail.setGender(gender);
 				employeeDetail.setStartDate(startDate);
 				employeeDetail.setLevel(level);
@@ -236,7 +289,54 @@ public class AddJPanel extends JPanel {
 		add(btnNewButton, "10, 28");
 		
 		this.employeeDirectory = employeeDirectory;
-
+		this.validationFields = new HashMap<String, String>();
 	}
+	
+	private boolean validateName(String name) {
+		boolean isValidated = false;
+		if (name == null || name.trim().equals("")) {
+			return isValidated =  true;
+		}
+		final Pattern pattern = Pattern.compile("^[A-Za-z- ]++$");
+		if (!pattern.matcher(name).matches()) {
+			return isValidated =  true;
+		}
+		return isValidated;
+	}
+	
+	private boolean validateEmail(String email) {
+		boolean isValidated = false;
+		if (email == null || email.trim().equals("")) {
+			return isValidated =  true;
+		}
+		final Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+		if (!pattern.matcher(email).matches()) {
+			return isValidated =  true;
+		}
+		return isValidated;
+	}
+	
+	private boolean validatePhoneNumber(String phone) {
+		boolean isValidated = false;
+		if (phone == null || phone.trim().equals("")) {
+			return isValidated =  true;
+		}
+		final Pattern pattern = Pattern.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$");
+		if (!pattern.matcher(phone).matches()) {
+			return isValidated =  true;
+		}
+		return isValidated;
+	}
+	
+	private String getRandomNumber() {
+		
+		Random random = new Random();
+        int num = random.nextInt(100000);
+        String employeeId = String.format("%05d", num);
+        return employeeId;
+        
+	}
+	
+	
 
 }
