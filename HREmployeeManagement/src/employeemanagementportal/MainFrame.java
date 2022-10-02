@@ -65,8 +65,8 @@ public class MainFrame extends JFrame {
 		JButton btnView = new JButton("VIEW");
 		btnView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("hello world");
-				
+				ViewEmployeeDetails viewPanel = new ViewEmployeeDetails(employeeDirectory);
+				splitPane.setRightComponent(viewPanel);
 			}
 		});
 		btnView.setForeground(new Color(255, 255, 255));
