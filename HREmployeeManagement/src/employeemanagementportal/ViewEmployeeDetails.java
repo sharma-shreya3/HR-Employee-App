@@ -220,7 +220,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 		FormSpecs.RELATED_GAP_ROWSPEC,
 		 		FormSpecs.DEFAULT_ROWSPEC,}));
 		 
-		 lblIcon = new JLabel("EMP Img");
+		 lblIcon = new JLabel("");
 		 lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		 updatePanel.add(lblIcon, "6, 2, 8, 8");
 		 
@@ -585,6 +585,7 @@ public class ViewEmployeeDetails extends JPanel {
 		textTitle.setText("");
 		textPhoneNumber.setText("");
 		textEmail.setText("");
+		lblIcon.setText("");
 		btnGroup.clearSelection();
 		
 	}
