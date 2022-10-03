@@ -53,7 +53,6 @@ public class ViewEmployeeDetails extends JPanel {
 	private JTextField searchLevel;
 	private JRadioButton rdbtnFemale;
 	private JTextField searchPosition;
-	private JTextField searchTeamInfo;
 	private JRadioButton rdbtnMale;
 	private JButton btnUpdate;
 	private String updateEmpID = null;
@@ -534,15 +533,16 @@ public class ViewEmployeeDetails extends JPanel {
 		 panel.add(searchPosition, "32, 6, 4, 1, left, default");
 		 searchPosition.setColumns(10);
 		 
-		 JLabel lblNewLabel_15 = new JLabel("Team Info");
-		 lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		 panel.add(lblNewLabel_15, "4, 8, right, default");
-		 
-		 searchTeamInfo = new JTextField();
-		 panel.add(searchTeamInfo, "6, 8, left, default");
-		 searchTeamInfo.setColumns(10);
-		 
 		 JButton generalSearch = new JButton("General Search");
+		 generalSearch.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {	
+		 		String name = searchName.getText();
+		 		String level = searchLevel.getText();
+		 		String position = searchPosition.getText();  
+		 		
+		 		generalSearch(name,level,position);
+		 	}
+		 });
 		 panel.add(generalSearch, "36, 8");
 		 
 		 uniqueSearchFlag = false;
@@ -683,11 +683,36 @@ public class ViewEmployeeDetails extends JPanel {
 			JOptionPane.showMessageDialog(null,"No record found");
 		}
 		
-		return filterEmployeeDirectory;
+		return filterEmployeeDirectory;	
+	}
+	
+	private void generalSearch(String name, String level, String position) {
+		ArrayList<EmployeeDetails> filterEmployeeDirectory = new ArrayList<EmployeeDetails>();
+		for(EmployeeDetails ed : employeeDirectory.getEmployeeDirectory()) {
+			if (name != null && !name.trim().isEmpty() && ed.getName().contains(name)) {
+				if (filterEmployeeDirectory.size() == 0) {
+					filterEmployeeDirectory.add(ed);
+				} else if (!filterEmployeeDirectory.contains(ed)) {
+					filterEmployeeDirectory.add(ed);
+				}
+			} 
+			if (position != null && !position.trim().isEmpty() && ed.getPositionTitle().contains(position)) {
+				if (filterEmployeeDirectory.size() == 0) {
+					filterEmployeeDirectory.add(ed);
+				} else if (!filterEmployeeDirectory.contains(ed)) {
+					filterEmployeeDirectory.add(ed);
+				}
+			}
+	
+		}
+		
+		if (filterEmployeeDirectory.size() <= 0) {
+			JOptionPane.showMessageDialog(null,"No record found");
+		} else {
+			populateTable(filterEmployeeDirectory);
+		}
 		
 	}
-		
-	private void addNewEmployeeDetails(EmployeeDetails employeeDetails) {
-		
-	}
+
+
 }
