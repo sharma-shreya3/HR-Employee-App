@@ -642,7 +642,18 @@ public class ViewEmployeeDetails extends JPanel {
 					if (empId != null & !empId.isEmpty()  && ed.getEmployeeId().equals(empId)) {
 						filterEmployeeDirectory.add(ed);
 						populateTable(filterEmployeeDirectory);
+					} else {
+						filterEmployeeDirectory.add(ed);
+						populateTable(filterEmployeeDirectory);
 					}
+				 } else if (phone == null || phone.isEmpty()) {
+					 if (empId != null & !empId.isEmpty()  && ed.getEmployeeId().equals(empId)) {
+							filterEmployeeDirectory.add(ed);
+							populateTable(filterEmployeeDirectory);
+						} else {
+							filterEmployeeDirectory.add(ed);
+							populateTable(filterEmployeeDirectory);
+						}
 				 }
 				} else if(emailId == null || emailId.isEmpty()) {
 				if (phone != null && !phone.isEmpty() && ed.getContactInfo().getCellPhoneNumber().equals(phone)) {
@@ -657,11 +668,16 @@ public class ViewEmployeeDetails extends JPanel {
 					if (empId != null && !empId.isEmpty() && ed.getEmployeeId().equals(empId)) {
 						filterEmployeeDirectory.add(ed);
 						populateTable(filterEmployeeDirectory);
+					} else if (empId == null || empId.isEmpty()) {
+						filterEmployeeDirectory.add(ed);
+						populateTable(filterEmployeeDirectory);
 					}
-			} else {
-				JOptionPane.showMessageDialog(null,"No result Found");
 			}
 		}
+		}
+		
+		if (filterEmployeeDirectory.size() <= 0) {
+			JOptionPane.showMessageDialog(null,"No record found");
 		}
 		
 		return filterEmployeeDirectory;
