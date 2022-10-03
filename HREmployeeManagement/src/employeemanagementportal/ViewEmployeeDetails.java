@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import com.jgoodies.forms.layout.FormLayout;
@@ -32,6 +33,7 @@ public class ViewEmployeeDetails extends JPanel {
 	private JTable tblEmployeeData;
 	
 	EmployeeDirectory employeeDirectory;
+	EmployeeDirectory viewEmployeeDirectory;
 	private JTextField textName;
 	private JTextField textAge;
 	private JTextField textEmpID;
@@ -53,6 +55,8 @@ public class ViewEmployeeDetails extends JPanel {
 	private JRadioButton rdbtnMale;
 	private JButton btnUpdate;
 	private String updateEmpID = null;
+	private boolean uniqueSearchFlag;
+	private boolean generalSearchFlag;
 
 	/**
 	 * Create the panel.
@@ -99,7 +103,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 		
 		 		employeeDirectory.deleteEmployeeData(selectedEmployee);
 		 		JOptionPane.showMessageDialog(null,"Details of " + selectedEmployee.getName() + " is deleted successfully");
-		 		populateTable();
+		 		populateTable(employeeDirectory.getEmployeeDirectory());
 		 	}
 		 });
 		 btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -398,7 +402,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 		updateDetails.setPositionTitle(positionTitle);
 		 		
 		 		JOptionPane.showMessageDialog(null,"Details updated successfully");
-		 		populateTable();
+		 		populateTable(employeeDirectory.getEmployeeDirectory());
 				
 		 		
 		 	}
@@ -485,6 +489,23 @@ public class ViewEmployeeDetails extends JPanel {
 		 searchPhoneNumber.setColumns(10);
 		 
 		 JButton uniqueSearch = new JButton("Unique Search");
+		 uniqueSearch.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+
+		 		String email = searchEmail.getText();
+		 		String phoneNumber = searchPhoneNumber.getText();
+		 		String empId = searchEmpID.getText();  
+				uniqueSearch(email,phoneNumber,empId);
+				uniqueSearchFlag = true;
+				
+				
+				
+		 		
+		 		//jj
+		 		
+		 		
+		 	}
+		 });
 		 panel.add(uniqueSearch, "36, 4");
 		 
 		 JLabel lblNewLabel_12 = new JLabel("Name");
@@ -522,15 +543,18 @@ public class ViewEmployeeDetails extends JPanel {
 		 JButton generalSearch = new JButton("General Search");
 		 panel.add(generalSearch, "36, 8");
 		 
-		 populateTable();
+		 uniqueSearchFlag = false;
+		 generalSearchFlag = false;
+	
+		 populateTable(employeeDirectory.getEmployeeDirectory());
 
 	}
 
-	private void populateTable() {
+	private void populateTable(ArrayList<EmployeeDetails> filterEmployeeDirectory) {
 		DefaultTableModel model = (DefaultTableModel) tblEmployeeData.getModel();
 		model.setRowCount(0);
 		
-		for (EmployeeDetails ed: employeeDirectory.getEmployeeDirectory()) {
+		for (EmployeeDetails ed: filterEmployeeDirectory) {
 			Object[] row = new Object[9];
 			
 			row[0] = ed;
@@ -608,5 +632,43 @@ public class ViewEmployeeDetails extends JPanel {
 			return isValidated =  true;
 		}
 		return isValidated;
+	}
+	
+	private ArrayList<EmployeeDetails> uniqueSearch(String emailId, String phone, String empId) {
+		ArrayList<EmployeeDetails> filterEmployeeDirectory = new ArrayList<EmployeeDetails>();
+		for(EmployeeDetails ed : employeeDirectory.getEmployeeDirectory()) {
+			if (emailId != null && !emailId.isEmpty() && ed.getContactInfo().getEmailId().equals(emailId)) {
+				if (phone != null && !phone.isEmpty() && ed.getContactInfo().getCellPhoneNumber().equals(phone)) {
+					if (empId != null & !empId.isEmpty()  && ed.getEmployeeId().equals(empId)) {
+						filterEmployeeDirectory.add(ed);
+						populateTable(filterEmployeeDirectory);
+					}
+				 }
+				} else if(emailId == null || emailId.isEmpty()) {
+				if (phone != null && !phone.isEmpty() && ed.getContactInfo().getCellPhoneNumber().equals(phone)) {
+					if (empId != null && !empId.isEmpty() && ed.getEmployeeId().equals(empId)) {
+						filterEmployeeDirectory.add(ed);
+						populateTable(filterEmployeeDirectory);
+					}	else {
+						filterEmployeeDirectory.add(ed);
+						populateTable(filterEmployeeDirectory);
+					}
+				} else if (phone == null || phone.isEmpty()) {
+					if (empId != null && !empId.isEmpty() && ed.getEmployeeId().equals(empId)) {
+						filterEmployeeDirectory.add(ed);
+						populateTable(filterEmployeeDirectory);
+					}
+			} else {
+				JOptionPane.showMessageDialog(null,"No result Found");
+			}
+		}
+		}
+		
+		return filterEmployeeDirectory;
+		
+	}
+		
+	private void addNewEmployeeDetails(EmployeeDetails employeeDetails) {
+		
 	}
 }
