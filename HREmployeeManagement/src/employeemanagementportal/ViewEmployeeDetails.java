@@ -90,6 +90,8 @@ public class ViewEmployeeDetails extends JPanel {
 		 this.employeeDirectory = employeeDirectory;
 		 
 		 JButton btnNewButton = new JButton("Delete Record");
+		 btnNewButton.setForeground(new Color(255, 255, 255));
+		 btnNewButton.setBackground(new Color(116, 14, 41));
 		 btnNewButton.addActionListener(new ActionListener() {
 		 	public void actionPerformed(ActionEvent e) {
 		 		int selectedRowIndex = tblEmployeeData.getSelectedRow();
@@ -108,10 +110,12 @@ public class ViewEmployeeDetails extends JPanel {
 		 	}
 		 });
 		 btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		 btnNewButton.setBounds(504, 346, 137, 21);
+		 btnNewButton.setBounds(530, 346, 137, 21);
 		 add(btnNewButton);
 		 
 		 JButton btnViewRecord = new JButton("View Record");
+		 btnViewRecord.setForeground(new Color(255, 255, 255));
+		 btnViewRecord.setBackground(new Color(172, 21, 63));
 		 btnViewRecord.addActionListener(new ActionListener() {
 		 	public void actionPerformed(ActionEvent e) {
 		 		int selectedRowIndex = tblEmployeeData.getSelectedRow();
@@ -150,7 +154,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 	}
 		 });
 		 btnViewRecord.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		 btnViewRecord.setBounds(357, 346, 137, 21);
+		 btnViewRecord.setBounds(383, 346, 137, 21);
 		 add(btnViewRecord);
 		 
 		 JLabel lblUpdate = new JLabel("Update Employee Details");
@@ -219,6 +223,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 		FormSpecs.DEFAULT_ROWSPEC,}));
 		 
 		 lblIcon = new JLabel("");
+		 lblIcon.setBackground(new Color(228, 220, 228));
 		 lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		 updatePanel.add(lblIcon, "6, 2, 8, 8");
 		 
@@ -419,6 +424,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 updatePanel.add(btnUpdate, "22, 22");
 		 
 		 JPanel panel = new JPanel();
+		 panel.setBackground(new Color(226, 220, 228));
 		 panel.setBounds(21, 37, 646, 129);
 		 add(panel);
 		 panel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -495,6 +501,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 searchPhoneNumber.setColumns(10);
 		 
 		 JButton uniqueSearch = new JButton("Unique Search");
+		 uniqueSearch.setBackground(new Color(125, 189, 83));
 		 uniqueSearch.addActionListener(new ActionListener() {
 		 	public void actionPerformed(ActionEvent e) {
 
@@ -521,6 +528,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 panel.add(lblNewLabel_14, "10, 6, right, default");
 		 
 		 JButton generalSearch = new JButton("General Search");
+		 generalSearch.setBackground(new Color(125, 189, 83));
 		 generalSearch.addActionListener(new ActionListener() {
 		 	public void actionPerformed(ActionEvent e) {	
 		 		String name = searchName.getText();

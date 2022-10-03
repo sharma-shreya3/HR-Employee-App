@@ -58,6 +58,7 @@ public class MainFrame extends JFrame {
 		splitPane.setRightComponent(workSpace);
 		
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(new Color(235, 235, 226));
 		controlPanel.setPreferredSize(new Dimension(100, 600));
 		splitPane.setLeftComponent(controlPanel);
 		controlPanel.setLayout(null);
@@ -72,7 +73,7 @@ public class MainFrame extends JFrame {
 		btnView.setForeground(new Color(255, 255, 255));
 		btnView.setBackground(new Color(128, 64, 0));
 		btnView.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnView.setBounds(7, 225, 85, 25);
+		btnView.setBounds(7, 294, 85, 25);
 		controlPanel.add(btnView);
 		
 		JButton btnCreate = new JButton("ADD");
@@ -85,7 +86,7 @@ public class MainFrame extends JFrame {
 		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCreate.setForeground(new Color(255, 255, 255));
 		btnCreate.setBackground(new Color(0, 128, 64));
-		btnCreate.setBounds(7, 169, 85, 25);
+		btnCreate.setBounds(7, 228, 85, 25);
 		controlPanel.add(btnCreate);
 		
 		employeeDirectory = new EmployeeDirectory(); 
