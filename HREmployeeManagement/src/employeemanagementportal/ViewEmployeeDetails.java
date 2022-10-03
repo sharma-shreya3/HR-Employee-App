@@ -400,6 +400,11 @@ public class ViewEmployeeDetails extends JPanel {
 					return;
 				}
 				
+				if (emailIdExist(email)) {
+					JOptionPane.showMessageDialog(null,"Cannot add details as employee with same email id exist.");
+					return;
+				}
+				
 				btnUpdate.setEnabled(false);
 		 		updateEmpID = null;
 		 		clearUpdateTextFields();
@@ -583,7 +588,7 @@ public class ViewEmployeeDetails extends JPanel {
 		textTitle.setText("");
 		textPhoneNumber.setText("");
 		textEmail.setText("");
-		lblIcon.setText("");
+		lblIcon.setIcon(null);
 		btnGroup.clearSelection();
 		
 	}
@@ -711,6 +716,17 @@ public class ViewEmployeeDetails extends JPanel {
 			populateTable(filterEmployeeDirectory);
 		}
 		
+	}
+	
+	private boolean emailIdExist(String email) {
+		boolean emailIdExist = false;
+		ArrayList<EmployeeDetails> employeeDirectoryL = employeeDirectory.getEmployeeDirectory();
+		for(EmployeeDetails ed: employeeDirectoryL) {
+			if (email != null && !email.trim().isEmpty() && ed.getContactInfo().getEmailId().equals(email)) {
+				emailIdExist = true;
+			}
+		}
+		return emailIdExist;
 	}
 
 

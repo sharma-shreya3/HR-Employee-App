@@ -300,6 +300,7 @@ public class AddJPanel extends JPanel {
 				textPositionTitle.setText("");
 				textPhoneNumber.setText("");
 				textEmail.setText("");
+				lblImage.setIcon(null);
 				btnGroup.clearSelection(); 			
 				
 			}
