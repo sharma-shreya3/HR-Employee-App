@@ -14,13 +14,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -29,12 +36,14 @@ import java.awt.event.ActionEvent;
 public class AddJPanel extends JPanel {
 	private JTextField textName;
 	private JTextField textAge;
+	private JLabel lblImage;
 	private JTextField textStartDate;
 	private JTextField textLevel;
 	private JTextField textTeamInfo;
 	private JTextField textPositionTitle;
 	private JTextField textPhoneNumber;
 	private JTextField textEmail;
+	private String imagePath;
 
 	/**
 	 * Create the panel.
@@ -266,7 +275,7 @@ public class AddJPanel extends JPanel {
 				employeeDetail.setTeamInfo(teamInfo);
 				employeeDetail.setPositionTitle(positionTitle);
 				employeeDetail.setContactInfo(contactInfo);
-				employeeDetail.setPhotosLink(null);
+				employeeDetail.setPhotosLink(imagePath);
 				
 				JOptionPane.showMessageDialog(null,"Employee Details added Successfully");
 				
@@ -283,6 +292,33 @@ public class AddJPanel extends JPanel {
 				
 			}
 		});
+		
+		JButton btnImg = new JButton("Add Image");
+		btnImg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser browseImage = new JFileChooser();
+				
+				FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+				browseImage.addChoosableFileFilter(fnef);
+				int showOpenDialog = browseImage.showOpenDialog(null);
+				
+				 if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
+			            File selectedImageFile = browseImage.getSelectedFile();
+			            String selectedImagePath = selectedImageFile.getAbsolutePath();
+			            JOptionPane.showMessageDialog(null, selectedImagePath);
+			            imagePath = selectedImagePath;
+			            ImageIcon ii = new ImageIcon(selectedImagePath);
+			            Image image = ii.getImage().getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
+			             
+			            lblImage.setIcon(new ImageIcon(image));
+			        }
+			}
+		});
+		add(btnImg, "10, 24");
+		
+		 lblImage = new JLabel("Image Display");
+		add(lblImage, "12, 24, 1, 5");
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setBackground(new Color(0, 128, 0));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));

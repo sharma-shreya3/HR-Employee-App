@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.LayoutManager;
 
 import javax.swing.JTable;
@@ -16,6 +17,7 @@ import model.EmployeeDirectory;
 
 import javax.swing.JScrollPane;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class ViewEmployeeDetails extends JPanel {
 	private JRadioButton rdbtnMale;
 	private JButton btnUpdate;
 	private String updateEmpID = null;
+	private JLabel lblIcon;
 	private boolean uniqueSearchFlag;
 	private boolean generalSearchFlag;
 
@@ -130,6 +133,11 @@ public class ViewEmployeeDetails extends JPanel {
 		 		textStartDate.setText(selectedEmployee.getStartDate());
 		 		textTitle.setText(selectedEmployee.getPositionTitle());
 		 		textTreamInfo.setText(selectedEmployee.getTeamInfo());
+		 		
+		 		ImageIcon ii = new ImageIcon(selectedEmployee.getPhotosLink());
+	            Image image = ii.getImage().getScaledInstance(lblIcon.getWidth(), lblIcon.getHeight(), Image.SCALE_SMOOTH);
+	             
+	            lblIcon.setIcon(new ImageIcon(image));
 		 		
 		 		if (selectedEmployee.getGender().equals("Female")) {
 		 			rdbtnFemale.setSelected(true);
@@ -212,7 +220,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 		FormSpecs.RELATED_GAP_ROWSPEC,
 		 		FormSpecs.DEFAULT_ROWSPEC,}));
 		 
-		 JLabel lblIcon = new JLabel("EMP Img");
+		 lblIcon = new JLabel("EMP Img");
 		 lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		 updatePanel.add(lblIcon, "6, 2, 8, 8");
 		 
@@ -496,13 +504,7 @@ public class ViewEmployeeDetails extends JPanel {
 		 		String phoneNumber = searchPhoneNumber.getText();
 		 		String empId = searchEmpID.getText();  
 				uniqueSearch(email,phoneNumber,empId);
-				uniqueSearchFlag = true;
-				
-				
-				
-		 		
-		 		//jj
-		 		
+				// uniqueSearchFlag = true;
 		 		
 		 	}
 		 });
