@@ -50,7 +50,6 @@ public class ViewEmployeeDetails extends JPanel {
 	private JTextField searchEmail;
 	private JTextField searchPhoneNumber;
 	private JTextField searchName;
-	private JTextField searchLevel;
 	private JRadioButton rdbtnFemale;
 	private JTextField searchPosition;
 	private JRadioButton rdbtnMale;
@@ -517,32 +516,23 @@ public class ViewEmployeeDetails extends JPanel {
 		 panel.add(searchName, "6, 6, left, default");
 		 searchName.setColumns(10);
 		 
-		 JLabel lblNewLabel_13 = new JLabel("Level");
-		 lblNewLabel_13.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		 panel.add(lblNewLabel_13, "9, 6, 2, 1, left, default");
-		 
-		 searchLevel = new JTextField();
-		 panel.add(searchLevel, "12, 6, 3, 1, left, default");
-		 searchLevel.setColumns(10);
-		 
 		 JLabel lblNewLabel_14 = new JLabel("Position");
 		 lblNewLabel_14.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		 panel.add(lblNewLabel_14, "28, 6, right, default");
-		 
-		 searchPosition = new JTextField();
-		 panel.add(searchPosition, "32, 6, 4, 1, left, default");
-		 searchPosition.setColumns(10);
+		 panel.add(lblNewLabel_14, "10, 6, right, default");
 		 
 		 JButton generalSearch = new JButton("General Search");
 		 generalSearch.addActionListener(new ActionListener() {
 		 	public void actionPerformed(ActionEvent e) {	
 		 		String name = searchName.getText();
-		 		String level = searchLevel.getText();
 		 		String position = searchPosition.getText();  
 		 		
-		 		generalSearch(name,level,position);
+		 		generalSearch(name,position);
 		 	}
 		 });
+		 
+		 searchPosition = new JTextField();
+		 panel.add(searchPosition, "14, 6, 7, 1, left, default");
+		 searchPosition.setColumns(10);
 		 panel.add(generalSearch, "36, 8");
 		 
 		 uniqueSearchFlag = false;
@@ -686,7 +676,7 @@ public class ViewEmployeeDetails extends JPanel {
 		return filterEmployeeDirectory;	
 	}
 	
-	private void generalSearch(String name, String level, String position) {
+	private void generalSearch(String name, String position) {
 		ArrayList<EmployeeDetails> filterEmployeeDirectory = new ArrayList<EmployeeDetails>();
 		for(EmployeeDetails ed : employeeDirectory.getEmployeeDirectory()) {
 			if (name != null && !name.trim().isEmpty() && ed.getName().contains(name)) {
@@ -696,6 +686,7 @@ public class ViewEmployeeDetails extends JPanel {
 					filterEmployeeDirectory.add(ed);
 				}
 			} 
+			
 			if (position != null && !position.trim().isEmpty() && ed.getPositionTitle().contains(position)) {
 				if (filterEmployeeDirectory.size() == 0) {
 					filterEmployeeDirectory.add(ed);

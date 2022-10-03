@@ -28,6 +28,7 @@ import javax.swing.JFileChooser;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -224,12 +225,18 @@ public class AddJPanel extends JPanel {
 				if (validateName(name)) {
 					validateMsg = validateMsg + "Name field is invalid.";
 				}
-				if (age.isEmpty() || Integer.parseInt(age) < 18) {
-					if (validateMsg.isEmpty()) {
-						validateMsg = "Age field is invalid.";
-					} else {
-						validateMsg = validateMsg + " , " +"Age field is invalid";
+				try {
+					int ageEmp = Integer.parseInt(age);
+					if (age.isEmpty() || ageEmp < 18 && ageEmp <  60) {
+						if (validateMsg.isEmpty()) {
+							validateMsg = "Age field is invalid.";
+						} else {
+							validateMsg = validateMsg + " , " +"Age field is invalid";
+						}
 					}
+							
+				} catch (Exception e1) {
+					validateMsg = validateMsg + " , " +"Age field is invalid";
 				}
 				
 				if (gender.isEmpty()) {
@@ -261,6 +268,11 @@ public class AddJPanel extends JPanel {
 					return;
 				}
 				
+				if (emailIdExist(email)) {
+					JOptionPane.showMessageDialog(null,"Cannot add details as employee with same email id exist.");
+					return;
+				}
+
 				ContactInfo contactInfo = new ContactInfo();
 				contactInfo.setCellPhoneNumber(phoneNumber);
 				contactInfo.setEmailId(email);
@@ -371,6 +383,17 @@ public class AddJPanel extends JPanel {
         String employeeId = String.format("%05d", num);
         return employeeId;
         
+	}
+	
+	private boolean emailIdExist(String email) {
+		boolean emailIdExist = false;
+		ArrayList<EmployeeDetails> employeeDirectoryL = employeeDirectory.getEmployeeDirectory();
+		for(EmployeeDetails ed: employeeDirectoryL) {
+			if (email != null && !email.trim().isEmpty() && ed.getContactInfo().getEmailId().equals(email)) {
+				emailIdExist = true;
+			}
+		}
+		return emailIdExist;
 	}
 	
 	
