@@ -416,6 +416,8 @@ public class ViewEmployeeDetails extends JPanel {
 		 		updateDetails.setLevel(level);
 		 		updateDetails.setTeamInfo(teamInfo);
 		 		updateDetails.setPositionTitle(positionTitle);
+		 		updateDetails.getContactInfo().setCellPhoneNumber(phoneNumber);
+		 		updateDetails.getContactInfo().setEmailId(email);
 		 		
 		 		JOptionPane.showMessageDialog(null,"Details updated successfully");
 		 		populateTable(employeeDirectory.getEmployeeDirectory());
