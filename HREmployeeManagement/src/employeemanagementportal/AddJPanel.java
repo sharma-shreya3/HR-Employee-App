@@ -386,6 +386,18 @@ public class AddJPanel extends JPanel {
         
 	}
 	
+	private boolean validateZipCode(String zipCode) {
+		boolean isValidated = false;
+		if (zipCode == null || zipCode.trim().equals("")) {
+			return isValidated = true;
+		} 
+		final Pattern pattern = Pattern.compile("^[0-9]{5}(?:-[0-9]{4})?$");
+		if (!pattern.matcher(zipCode).matches()) {
+			return isValidated = true;
+		}
+		return isValidated;
+	}
+	
 	private boolean emailIdExist(String email) {
 		boolean emailIdExist = false;
 		ArrayList<EmployeeDetails> employeeDirectoryL = employeeDirectory.getEmployeeDirectory();
